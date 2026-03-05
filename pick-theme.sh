@@ -19,7 +19,7 @@ selected=$(find "$THEMES_DIR" -maxdepth 1 \( -name "*.omp.json" -o -name "*.omp.
   | awk -F'/' '{name=$NF; sub(/\.omp\.(json|yaml|toml)$/, "", name); print name "\t" $0}' \
   | fzf \
       --prompt="Theme: " \
-      --preview="oh-my-posh print preview --config {2}" \
+      --preview="printf '%s' \"\$(oh-my-posh print preview --config {2})\"; printf '\033[5m▋\033[0m\n'" \
       --preview-window=bottom:10 \
       --ansi \
       --delimiter='\t' \
