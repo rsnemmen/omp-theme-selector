@@ -16,20 +16,22 @@ fi
 
 selected=$(find "$THEMES_DIR" -maxdepth 1 \( -name "*.omp.json" -o -name "*.omp.yaml" -o -name "*.omp.toml" \) \
   | sort \
+  | awk -F'/' '{name=$NF; sub(/\.omp\.(json|yaml|toml)$/, "", name); print name "\t" $0}' \
   | fzf \
       --prompt="Theme: " \
-      --preview="oh-my-posh print preview --config {}" \
+      --preview="oh-my-posh print preview --config {2}" \
       --preview-window=bottom:10 \
       --ansi \
-      --delimiter='/' \
-      --with-nth=-1)
+      --delimiter='\t' \
+      --with-nth=1)
 
 if [[ -z "$selected" ]]; then
   echo "No theme selected." >&2
   exit 0
 fi
 
-name=$(basename "$selected" | sed 's/\.omp\.\(json\|yaml\|toml\)$//')
+name=$(cut -f1 <<< "$selected")
+selected=$(cut -f2 <<< "$selected")
 echo "Selected theme: $name"
 echo "Config path: $selected"
 echo ""
