@@ -4,11 +4,13 @@
 
 if [[ -d "$HOME/.poshthemes" ]]; then
   THEMES_DIR="$HOME/.poshthemes"
+elif cache_themes=$(oh-my-posh cache path 2>/dev/null) && [[ -d "$cache_themes/themes" ]]; then
+  THEMES_DIR="$cache_themes/themes"
 elif brew_prefix=$(brew --prefix oh-my-posh 2>/dev/null) && [[ -d "$brew_prefix/themes" ]]; then
   THEMES_DIR="$brew_prefix/themes"
 else
   echo "Error: could not find oh-my-posh themes directory." >&2
-  echo "Install oh-my-posh via Homebrew or create ~/.poshthemes/" >&2
+  echo "Install oh-my-posh via Homebrew, curl installer, or create ~/.poshthemes/" >&2
   exit 1
 fi
 
