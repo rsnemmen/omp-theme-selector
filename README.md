@@ -22,13 +22,13 @@ Interactive [oh-my-posh](https://ohmyposh.dev/) theme picker with live preview i
 ```bash
 git clone https://github.com/yourusername/omp-theme-selector
 cd omp-theme-selector
-chmod +x pick-theme.sh
+chmod +x omp-theme.sh
 ```
 
 ## Usage
 
 ```bash
-./pick-theme.sh
+./omp-theme.sh
 ```
 
 Use `↑`/`↓` to browse themes and see them previewed instantly. Press `Enter` to select.

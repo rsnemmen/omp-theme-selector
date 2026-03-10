@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-A single-script tool (`pick-theme.sh`) for interactively selecting an [oh-my-posh](https://ohmyposh.dev/) theme with live preview in the terminal.
+A single-script tool (`omp-theme.sh`) for interactively selecting an [oh-my-posh](https://ohmyposh.dev/) theme with live preview in the terminal.
 
 **Dependencies:** `fzf`, `oh-my-posh`
 
 ## Usage
 
 ```bash
-./pick-theme.sh
+./omp-theme.sh
 ```
 
 The script auto-detects the themes directory in priority order:
