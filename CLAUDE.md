@@ -22,3 +22,7 @@ The script auto-detects the themes directory in priority order:
 fzf displays theme names (stripped of `.omp.{json,yaml,toml}`) with a live preview via `oh-my-posh print preview`. A blinking cursor is appended after the preview output to show cursor placement.
 
 On selection, it prints the config path and the `eval` snippet needed to apply the theme permanently in a shell init file. Nothing is written to disk automatically.
+
+## Installation
+
+`install.sh` is a curl-friendly installer. It downloads `omp-theme.sh` from the main branch and installs it as `omp-theme` in the user's PATH (`~/.local/bin` or `/usr/local/bin`). It warns (but does not abort) if `fzf` or `oh-my-posh` are missing, and prints the exact install path when done.
