@@ -26,27 +26,11 @@ curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/in
 ```
 
 This downloads `omp-theme` to `~/.local/bin` (or `/usr/local/bin`) and makes it executable.
+
 To install to a custom location, set `INSTALL_DIR`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/install.sh | INSTALL_DIR=~/bin bash
-```
-
-### Manual
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/omp-theme.sh \
-  -o ~/.local/bin/omp-theme
-chmod +x ~/.local/bin/omp-theme
-```
-
-### From source
-
-```bash
-git clone https://github.com/rsnemmen/omp-theme-selector
-cd omp-theme-selector
-cp omp-theme.sh ~/.local/bin/omp-theme
-chmod +x ~/.local/bin/omp-theme
 ```
 
 ## Usage
