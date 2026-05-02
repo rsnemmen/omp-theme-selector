@@ -2,7 +2,6 @@
 
 Interactive [oh-my-posh](https://ohmyposh.dev/) theme picker with live preview in the terminal.
 
-<!-- TODO: replace with a GIF demo -->
 ![demo](demo.gif)
 
 ## Features
@@ -27,7 +26,7 @@ curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/in
 
 This downloads `omp-theme` to `~/.local/bin` (or `/usr/local/bin`) and makes it executable.
 
-To install to a custom location, set `INSTALL_DIR`:
+To install to a custom writable location, set `INSTALL_DIR`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/install.sh | INSTALL_DIR=~/bin bash
@@ -40,6 +39,7 @@ omp-theme
 ```
 
 Use `↑`/`↓` to browse themes and see them previewed instantly. Press `Enter` to select.
+Press `Esc` or `Ctrl-C` to cancel without changing anything.
 
 On selection the script prints the config path and the line to add to your shell init file:
 
@@ -58,3 +58,5 @@ The script looks for themes in this order:
 1. `~/.poshthemes/` — custom/user-managed themes
 2. `$(oh-my-posh cache path)/themes` — curl installer (Linux & macOS)
 3. `$(brew --prefix oh-my-posh)/themes` — Homebrew (macOS)
+
+If `fzf` or `oh-my-posh` is missing, `omp-theme` exits with a clear error. If no theme directory or theme files are found, it reports the missing path/source instead of opening an empty picker.
