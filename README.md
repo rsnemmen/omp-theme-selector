@@ -18,6 +18,16 @@ Interactive [oh-my-posh](https://ohmyposh.dev/) theme picker with live preview i
 
 ## Installation
 
+### Try without installing
+
+Run once, without copying anything to your PATH:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/rsnemmen/omp-theme-selector/main/omp-theme.sh)
+```
+
+This launches the theme picker directly from GitHub — nothing is written to disk. `fzf` and `oh-my-posh` still need to be available.
+
 ### One-liner (recommended)
 
 ```bash
