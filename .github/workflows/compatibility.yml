@@ -1,0 +1,74 @@
+name: Compatibility
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 9 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.os }} / Oh My Posh ${{ matrix.omp }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        omp: [v31.9.1, latest]
+    defaults:
+      run:
+        # /bin/bash on macOS exercises Bash 3.2 compatibility.
+        shell: /bin/bash --noprofile --norc -eo pipefail {0}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install check dependencies
+        run: |
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            sudo apt-get update
+            sudo apt-get install -y fzf shellcheck zsh
+          else
+            brew install fzf shellcheck
+          fi
+      - name: Syntax, lint, and regression checks
+        env:
+          TEST_BASH: /bin/bash
+        run: |
+          /bin/bash -n omp-theme.sh
+          /bin/bash -n install.sh
+          /bin/bash -n tests/smoke.sh
+          shellcheck omp-theme.sh install.sh tests/smoke.sh
+          python3 -m unittest discover -s tests -v
+      - name: Install Oh My Posh and matching themes
+        env:
+          OMP_RELEASE: ${{ matrix.omp }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          release="$OMP_RELEASE"
+          if [[ "$release" == latest ]]; then
+            release=$(gh api repos/JanDeDobbeleer/oh-my-posh/releases/latest --jq .tag_name)
+          fi
+          case "$(uname -m)" in
+            x86_64) arch=amd64 ;;
+            arm64|aarch64) arch=arm64 ;;
+            *) exit 1 ;;
+          esac
+          case "$RUNNER_OS" in
+            Linux) platform=linux ;;
+            macOS) platform=darwin ;;
+          esac
+          release_dir="$RUNNER_TEMP/oh-my-posh"
+          mkdir -p "$release_dir/bin" "$release_dir/themes"
+          base="https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$release"
+          curl -fSL --retry 3 "$base/posh-$platform-$arch" -o "$release_dir/bin/oh-my-posh"
+          curl -fSL --retry 3 "$base/themes.zip" -o "$release_dir/themes.zip"
+          chmod +x "$release_dir/bin/oh-my-posh"
+          unzip -q "$release_dir/themes.zip" -d "$release_dir/themes"
+          printf '%s\n' "$release_dir/bin" >> "$GITHUB_PATH"
+          printf 'Resolved Oh My Posh release: %s\n' "$release"
+      - name: Real CLI smoke checks
+        run: /bin/bash tests/smoke.sh "$RUNNER_TEMP/oh-my-posh/themes"

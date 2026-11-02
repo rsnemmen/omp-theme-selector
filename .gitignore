@@ -2,3 +2,4 @@
 *.mov
 *.swp
 *~
+__pycache__/
